@@ -110,3 +110,6 @@ netstat -a -b - Displays all of the current connections and listening ports on t
 netstat -s -p tcp -f - Displays the statistics for all connections using TCP and then displays them in an FQDN format
 
 ![image](https://github.com/RepTambe/BTL1/assets/56054621/acef4da0-075f-4872-81be-3e495e2bd9ae)
+
+### Risk
+![image](https://github.com/RepTambe/BTL1/assets/56054621/23618832-43d2-46bf-bca6-9251e5079085)
