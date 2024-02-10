@@ -113,3 +113,33 @@ netstat -s -p tcp -f - Displays the statistics for all connections using TCP and
 
 ### Risk
 ![image](https://github.com/RepTambe/BTL1/assets/56054621/23618832-43d2-46bf-bca6-9251e5079085)
+
+
+# Phising Analysis
+Learning Objectives: 
+Explain the structure of an email, and how emails are composed, transported, and viewed, in terms of infrastructure, protocols, and clients.
+
+Explain what phishing is, and the impact it can have on both individuals and organizations in regard to confidentiality, integrity, availability, financial, reputation, and other factors.
+
+Understand what phishing is and the impact it can have on businesses and individuals.
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/d459fa69-1a3b-4761-9ad1-b24a6a610a0a)
+
+### Email Protocol
+
+Simple Mail Transfer Protocol (SMTP)
+Simple Mail Transfer Protocol works on TCP port 25 by default, is a communication protocol for electronic mail transmission. Once an email is created it is sent to the organization's SMTP server, which transports the email to the next server, before it eventually reaches the SMTP server of the recipient organization.
+
+However, the world is moving away from port 25 and the new standard is becoming TCP port 587. This port, coupled with TLS encryption, will ensure that email is submitted securely and follows the guidelines set out by the IETF.
+
+ 
+
+Post Office Protocol 3 (POP3)
+Post Office Protocol (POP) is an application-layer Internet standard protocol used by e-mail clients to retrieve e-mail from a mail server, with version 3 (POP3) being the most widely-used version on the internet. POP works by contacting your email server and downloading all emails from it. Once they are downloaded onto your system, they are deleted from the email server. This means that after the email is downloaded, it can only be accessed using the computer that downloaded the emails, and trying to access your emails from a different device will not work.
+
+ 
+
+Internet Mail Access Protocol (IMAP)
+IMAP allows you to access your email wherever you are, from any device. When you read an email message using IMAP you're reading it from the email server. As a result, you can check your email from different devices, such as a laptop, desktop, and mobile phone. IMAP still allows for emails to be downloaded, but you must manually click to save the email locally. This method for accessing emails is a lot more common than using POP, as it allows for better accessibility.
+
+In the below diagram, we will be following a scenario where John Smith working at BlackArch Solutions is emailing a friend, Aimee Faren at DicksonUnited. We will cover which protocols are used to deliver emails, and make them accessible by clients.
