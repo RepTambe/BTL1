@@ -143,3 +143,62 @@ Internet Mail Access Protocol (IMAP)
 IMAP allows you to access your email wherever you are, from any device. When you read an email message using IMAP you're reading it from the email server. As a result, you can check your email from different devices, such as a laptop, desktop, and mobile phone. IMAP still allows for emails to be downloaded, but you must manually click to save the email locally. This method for accessing emails is a lot more common than using POP, as it allows for better accessibility.
 
 In the below diagram, we will be following a scenario where John Smith working at BlackArch Solutions is emailing a friend, Aimee Faren at DicksonUnited. We will cover which protocols are used to deliver emails, and make them accessible by clients.
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/1f94d88c-438e-4c42-bd64-c297d1b32e66)
+
+Webmail:
+While we can access emails via an email client such as the Outlook application or Mozilla's Thunderbird program, a more convenient method is to use webmail. These are web-based email accounts, such as those offered by Hotmail/Outlook, Gmail, and Yahoo Mail. Internet service providers often provide free webmail accounts as part of their internet service package. Webmail allows users to access their emails as long as they have access to an Internet connection and a web browser. As with any web application, webmail's main advantage over the use of a desktop email client is the ability to send and receive email from anywhere via a web browser, such as your laptop, desktop, phone, or tablet. The main disadvantage is that email cannot be accessed without an internet connection, which can be done with an email client, where emails are downloaded and stored locally.
+
+## Tactics
+
+Spam Recon Emails
+These emails do not use any tactics, and are simply looking to see if an email error code is sent back to the attacker, such as "undeliverable". This allows the attacker to determine whether the mailbox is in use (no error email sent back means the mailbox is in use, and the email was delivered).
+
+Below is an example of an "undeliverable" message that is displayed when sending emails from Outlook. In this case, we have attempted to send a blank message to a Gmail mailbox that isn't in use.
+
+Social Engineering Recon Emails
+These emails will use social engineering techniques, such as posing as a person that the recipient may know or have regular communications with in order to get a response. Other tactics may include creating a sense of urgency, such as "I am about to meet with some important stakeholders, have you read the meeting notes yet?". 
+
+Tracking Pixels Explained
+Before we get into tracking pixels within emails, let's define what a tracking pixel is. This is an HTML code snippet that is loaded when a user visits a website or opens an email, very useful for tracking user behavior and preference—if you are an advertiser or hacker.
+
+Data harvesting through a tracking pixel is highly contentious, for many reasons like it being utilized in phishing campaigns, allowing hackers to gather information on their targets.
+
+Tracking Pixel Recon Emails
+These emails will typically follow the format of either a spam recon email, or a social engineering email, but are combined with an invisible tracking pixel, which allows the attacker to see if the email has been viewed by an email client. Whilst the other email types can determine if a mailbox is being used, using a tracking pixel can help the attacker understand how active the mailbox is. Monitoring the time it takes between sending the email and having it opened, can help the attacker avoid sending emails to unmonitored mailboxes which would have no impact but increase the risk of detection.
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/e371233c-a965-4b45-af83-61036814a772)
+
+### Credentail Harvesting
+These emails typically feature a lure email that is styled to look like it is from a legitimate company, Impersonating some of the most popular online services and retailers such as Outlook, Amazon, and DHL. The email will tell the recipient to click a button or URL, where they will typically be presented with a real-looking login portal - however, any credentials entered are either stored on the site in an inaccessible directory, or emailed to a dummy account, typically utilizing free online mail services such as Gmail, Hotmail, and Outlook, where the attacker can log in and collect them.
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/6f9354d1-693c-4d05-8981-07820ccfc712)
+
+
+### Malicious Files
+
+Can't send an exe, it will be scanned. But Mircosoft office documents are used daily. 
+
+Microsoft Office Macros
+MS Office documents such as Word and Excel offer the ability to include macros. These are a series of commands and instructions that can be run automatically once enabled. Macro malware was fairly common several years ago because macros ran automatically when a document was opened. However, in recent versions of Microsoft Office, macros are disabled by default. This means malware authors need to convince users to enable macros so their malware can execute. They do this by showing fake warnings when a malicious document is opened.
+
+****![image](https://github.com/RepTambe/BTL1/assets/56054621/6520770a-80fa-4804-89db-f301ee6df4e6)
+
+Hosted Malware - Hyperlinks. 
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/09089949-2a3d-4b1c-98e2-08cb887c24db)
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/17d25cc3-c2c2-4ae8-95a6-4257b7acabc3)
+
+
+### Homographs
+A homograph phishing attack is virtually impossible for users to spot. This attack exploits the fact that many different characters look exactly alike. These characters are called homographs, and the problem is with how the characters are encoded using Unicode.
+
+Wikipedia summarizes that “Unicode incorporates numerous writing systems, and, for a number of reasons, similar-looking characters such as Greek Ο, Latin O, and Cyrillic О were not assigned the same code. So, the Latin “o” and the Cyrillic “o” have a different Unicode and are therefore different letters.” It also means domains with those two different Os are two different domains. Domains using non-Latin letters are referred to as internationalized domain names (IDN) and are used quite frequently in homograph attacks.
+![image](https://github.com/RepTambe/BTL1/assets/56054621/53b56201-aacd-46a2-96f3-e907fed24350)
+
+Lure Documents-
+Inserting hyperlinks into a malicious email is common, and can potentially be detected easily by email security tools that retrieve URLs and sandbox them to see if the destination is malicious or has a bad community reputation. A way to prevent this is by including the hyperlink in a document, such as a PDF or Microsoft Word file. This means that the attachment itself isn’t inherently malicious, but the hyperlink inside can be. In the below example, this file is a lure document to direct users to “view an invoice online”. The destination URL could simply take the user to a malicious domain that downloads malware to the system.
+
+
+We can use a URL visualization tool URL2PNG to search for our short Bitly address. When we attempt to view the link, we can see that it is actually showing us the error page on the Security Blue Team site!
