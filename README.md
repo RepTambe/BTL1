@@ -202,3 +202,7 @@ Inserting hyperlinks into a malicious email is common, and can potentially be de
 
 
 We can use a URL visualization tool URL2PNG to search for our short Bitly address. When we attempt to view the link, we can see that it is actually showing us the error page on the Security Blue Team site!
+
+### Legit Services
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/71e91690-95b3-4db6-be2b-b7320ea85ae3)
