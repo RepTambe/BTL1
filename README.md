@@ -206,3 +206,99 @@ We can use a URL visualization tool URL2PNG to search for our short Bitly addres
 ### Legit Services
 
 ![image](https://github.com/RepTambe/BTL1/assets/56054621/71e91690-95b3-4db6-be2b-b7320ea85ae3)
+
+
+## Investigating a Phishing Email
+#### Email Artifacts:
+
+Sending Email Address
+This is where the email has come from or appeared to come from. During the Tactics and Techniques section, we covered spoofing, and how malicious actors can alter what the sending address looks like to make it appear legitimate. Regardless of whether this has obviously been spoofed, we need to record the email address that has apparently sent the email. We can use this as a search term in email gateway security products to identify any other emails that have come from, or been sent to that address.
+
+ 
+
+Subject Line
+The subject line is a very useful artifact for both searching for other associated emails by using it as a search term in our email gateway security product, or for blocking incoming emails that are in the same attack and using the same subject line.
+
+ 
+
+Recipient Email Addresses
+We need to identify which mailboxes have received this same phishing email, so we can inform them not to interact with it. Usually, the malicious actor will enter the recipients into the Blind Carbon Copy (BCC) field, so that recipients can’t see who else the email was sent to. To identify recipients we would typically check our email gateway, and search for emails coming from the sending address and including the subject line we have observed, which will give us a list of any other mailboxes that received the same email.
+
+ 
+
+Sending Server IP & Reverse DNS
+We need to know the address of the server that has sent the email, as this will help us to identify if the sending address has been spoofed. Once we have collected the IP we can perform a reverse DNS search on it using online tools such as Reverse IP Lookup by MXToolbox, which will provide us with a hostname that should give us some more information about the server.
+
+ 
+
+Reply-To Address
+This is the email address that will receive any replies to the original email. In some cases, this value will be different than the sending address, as if an attacker has successfully spoofed “support@amazon.com” any replies would go to that address, which the attacker won’t have access to. Instead, they can insert an email address of an attacker-controlled account, so now replies will go to “flamingo91591@outlook.com”.
+
+ 
+
+Date & Time
+It’s good practice to record the date and time an email was sent. Searching for a period of time on either side of the observed time could allow for other emails to be identified that are a part of the same attack or campaign. This can also be used as a metric to see at what times the organization receives the most malicious emails.
+
+#### File Artifacts: 
+
+Attachment Name
+The attachment name is a useful artifact when it comes to defensive measures, as depending on the uniqueness of the name, it can possibly be blocked using an organization’s Endpoint Detection and Response (EDR) platform, using the filename as an indicator of compromise. This should always include the file name and file extension.
+
+ 
+
+SHA256 Hash Value
+A hash, the unique string generated from a file, needs to be recorded as it represents the file in its entirety, and can be used for reputation checks using online tools such as VirusTotal and Talos File Reputation. MD5 and SHA1 hashes should no longer be used, as they have known hash collisions, so SHA256 is the current security standard for file hashing.
+
+#### Web Artifacts:
+ 
+
+Full URLs
+It’s important that when investigating a phishing email that contains a URL that it is copied properly, and not written out by hand, as this can lead to mistakes that will impact the investigation during the analysis stage. The URL should be copied either from the email client by right-clicking the hyperlink and selecting “Copy Link Destination”, or by copying it from a text editor.
+
+ 
+
+Root Domain
+Whilst this artifact isn’t necessary if you have the full URL, sometimes the root domain can be an important artifact, as it can help show if the site has been created for malicious activity, or if it is a legitimate site that has been compromised.
+
+### Text Editor Extraction
+Whilst we can get the majority of the email artifacts we need from a client, there is additional information that we need to collect such as the Sending Server IP (which server has sent the email), and the Reply-To address (where any replies to the email will be sent – this may not always be the initial sender). These can easily be obtained by downloading the email in either .eml or .msg file format and opening the file with a text editor.
+
+When the email opens in the text editor it’ll produce a long document that looks extremely long and complicated – but do not worry, we’re only looking for some specific parts, and we can easily get to them using the Find feature (CTRL+F).
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/441d51eb-e612-44c0-887a-18dc7868cf4e)
+
+
+
+
+The first thing we want to collect is the sending server IP, also referred to as the X-Sender-IP. Press CTRL + F (or your OS equivalent) and search for “IP”. The first string that you find should be the X-Sender-IP (if not, keep clicking “Find” or “Find Prev” until you find it).
+
+ ![image](https://github.com/RepTambe/BTL1/assets/56054621/d8fb3390-2862-4674-9397-7dd63e5c0d6a)
+
+
+Now that we have the IP, we need to convert the address into a hostname. We can do this by performing a reverse DNS lookup. We recommend you use the free online service by Domain Tools – https://whois.domaintools.com/. If we input the sending server IP we just received (https://whois.domaintools.com/209.85.167.42) we can retrieve information about the server.
+
+
+ ![image](https://github.com/RepTambe/BTL1/assets/56054621/87de5be7-b2db-4d51-b49f-91244a748f1e)
+
+
+In the above screenshot, we can see that the host is mail-If1-f42.google.com – a Gmail sending server. Sometimes the sending address domain and sending IP might not match up. If the sender is bob@gmail.com but the IP address belongs to Outlook, we know that the sending address has been spoofed. We’ll cover this in a future lesson.
+
+Next, we need to retrieve the Reply-To address. In the below screenshot, using a different example email, we have used the search function within Sublime Text 2 to look for the string “reply”. We have now identified the address that would receive any replies to this email.
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/48d6d6c8-9ac4-49ef-b188-424b2e261d71)
+
+#### Conclusion
+ 
+
+You should now be able to extract the following artifacts from a suspicious email:
+
+Sending Address
+Subject Line
+Recipient(s)
+Date and Time
+Sending Server IP
+Reverse DNS of Sending Server IP
+Reply-To (if present)
+ 
+
+At the end of this section, you’ll have a chance to put your artifact retrieval to the test with some example phishing emails! Let’s move on to web-based artifacts.
