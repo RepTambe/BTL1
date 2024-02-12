@@ -270,7 +270,7 @@ When the email opens in the text editor it’ll produce a long document that loo
 
 
 
-The first thing we want to collect is the sending server IP, also referred to as the X-Sender-IP. Press CTRL + F (or your OS equivalent) and search for “IP”. The first string that you find should be the X-Sender-IP (if not, keep clicking “Find” or “Find Prev” until you find it).
+The first thing we want to collect is the sending server IP, also referred to as the **X-Sender-IP**. Press CTRL + F (or your OS equivalent) and search for “IP”. The first string that you find should be the X-Sender-IP (if not, keep clicking “Find” or “Find Prev” until you find it).
 
  ![image](https://github.com/RepTambe/BTL1/assets/56054621/d8fb3390-2862-4674-9397-7dd63e5c0d6a)
 
@@ -300,5 +300,37 @@ Sending Server IP
 Reverse DNS of Sending Server IP
 Reply-To (if present)
  
+### Web Email Extraction
+Text Editor Extraction
+ 
 
-At the end of this section, you’ll have a chance to put your artifact retrieval to the test with some example phishing emails! Let’s move on to web-based artifacts.
+In a text editor, we can use the CTRL+F keyboard shortcut to enable the “Find” feature. There are three quick ways to find the URL(s) we want:
+
+Search for “http” as this will identify any http or https addresses being mentioned within the email.
+Search for anchor HTML tags <a> which are used to perform hyperlinking.
+Search for the text from the email body that is a hyperlink, in this example, we could search for “you can cancel it”.
+We’re going to use the last method.
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/ee6701e0-e23b-4d1b-ab1c-510518e7ece8)
+
+
+And there we have it, we can see the URL within the <a> HTML tags, and can copy it without fear of accidentally clicking on the link and being taken to a potentially malicious site.
+
+
+## FIle Artifacts
+
+#### Hashes via PowerShell
+
+We can also retrieve MD5 and SHA1 hashes using the get-filehash command with the -Algorithm switch.
+![image](https://github.com/RepTambe/BTL1/assets/56054621/850dbd1e-7eb8-4d43-b08c-b3fbd39d196b)
+
+#### Hashes via Linux CLI
+
+File hashes can be easily retrieved using the Linux command-line. The three commands we would use are;
+
+sha256sum <file>
+sha1sum <file>
+md5sum <file>
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/1d647379-a6b9-4274-b781-097d498a5be3)
+
