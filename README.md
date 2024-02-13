@@ -334,3 +334,105 @@ md5sum <file>
 
 ![image](https://github.com/RepTambe/BTL1/assets/56054621/1d647379-a6b9-4274-b781-097d498a5be3)
 
+
+
+#### External Emails:
+
+In the below screenshot, we have named our rule “Received from scope Outside the organization”. The rule is applied if:
+
+The sender is outside the organization (securityblue.team domain)
+AND the recipient is inside the organization
+If these two conditions are met (which will always occur when an external email is delivered to a @securityblue.team mailbox) the following action will be taken:
+
+Prepend the subject of the message with “[EXTERNAL]”
+
+### Email Security Technology
+SPF - 
+A Sender Policy Framework (SPF) record is a type of DNS (TXT) record that can help prevent an email address from being forged.  This record is established to identify the hostnames or IP addresses that are allowed to send emails for your custom domain.  When having an SPF record specified on your domain, helps prevent a malicious actor from spoofing your domain. The SPF TXT record contains three parts: the declaration of the record type, the IP addresses and external domains that can send on your domain’s behalf, and an enforcement rule.
+
+The basic syntax of the record is:
+
+v=spf1 <IP> <enforcement rule>
+
+For example, securityblue.team has the following SPF record:
+
+v=spf1 a: include:mailgun.org protection.outlook.com -all
+
+We can see that the record declares that it’s an SPF record, that it allows mail to be sent from mailgun.org and protection.outlook.com, and the -all specifies that the email will show a hard fail if the domain is spoofed by an unauthorized sender.
+
+
+DKIM Records - 
+ 
+Domain Keys Identified Mail (DKIM) is a method of email authentication that cryptographically verifies if an email has been sent by its trusted servers and hasn’t been tampered with during transmission.  The way that DKIM works is that when the mail server sends an email, an encrypted hash of the email contents is generated using a private key and then it adds this hash to the email header as a DKIM signature.  The receiving server will be able to verify whether the email contents have not been tampered with by looking up the corresponding public key in the domain's DNS records.  Once the receiving mail server decrypts the email with the public key, it calculates a new hash and verifies whether the original and the newly generated hash match to ensure email message integrity.
+
+The basic syntax of the record is:
+
+V=DKIM1 <key type> <public key>
+
+DMARC Records
+ 
+
+Domain-based Message Authentication, Reporting & Conformance (DMARC) is an email authentication, policy, and reporting protocol.  DMARC is built largely off of concepts taken from SPF and DKIM, but it adds several improvements to those protocols.  This type of record allows the domain owner to specify what should happen if emails fail both SPF and DKIM checks.  There are three basic options that the mail server can take: none, quarantine, and reject.
+
+The basic syntax of the record is:
+
+v=DMARC1 <action> <report address>
+
+For example, securityblue.team could have the following DMARC record:
+
+v=DMARC1; p=quarantine; rua=mailto:contact@securityblue.team
+
+We can see that the record declares that it’s a DMARC record, that it sets emails to go to the quarantine/spam folder when failing both checks, and that aggregate reports are sent to contact@securityblue.team of emails that have failed DMARC.
+
+### Spam Filters - 
+
+Gateway Spam Filters – Ones that sit behind an on-premises firewall of a network.  These can often be utilized by larger enterprise organizations and an example of a Gateway filter is the Barracuda email security gateway.
+Hosted Spam Filters – These are ones that are hosted within the cloud.  These work very similar to gateway spam filters but are able to update more quickly than some of the on-premises filters and an example of a hosted filter is SpamTitan.
+Desktop Spam Filters – These filters are user-installed and are typically used in SOHO scenarios.  One major drawback of these kinds of filters is that they can sometimes be categorized as “Freeware” and you may not fully know what the application is installing on your system.
+
+#### Content Filters
+A content filter is the classic depiction of a spam filter and uses information in the email header and body to try to determine whether the email is legitimate or spam.  When looking at the header, the filter could cross-reference the header with published blacklists or known spamming networks and automatically classify it as spam.  When this filter scans the body of the message it could, for example, look for adult-oriented content and determine that as spam, based on preferences set on the account.
+
+ 
+
+#### Rule-Based Filters
+A rule-based filter allows for emails to be filtered based on predetermined criteria.  A good example of this is Mail Flow rules in Microsoft Exchange where you could say:
+
+If the subject or body contains “FREE OFFER” and the Sender is located Outside of the Organization, raise the likelihood of the message being spam
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/1751cdbc-7bea-4764-bf5c-bdc469e92677)
+
+#### Bayesian Filters
+Bayesian filters have become one of the most intelligent types of spam filters that can be used.  This is because it can often utilize concepts such as machine learning, to learn the users’ spam preferences.  For example, when the user marks an email as spam, it can analyze the characteristics of that message and use that information to block similar messages from going to the inbox.  One slight downside to this kind of filter, however, is that it can often require a large amount of spam to efficiently utilize the machine learning capabilities.
+
+ 
+
+While there are many other kinds of filters, the three listed above are some of the most widely used.  One important thing to note about spam filters is that they need to be configured correctly to work properly.  If the individual maintaining a Bayesian filter flags legitimate email, then the system will start classifying legitimate email as spam.  It is important to maintain proper configurations and provide user training on what should and shouldn’t be considered spam.
+
+
+### Attachment Filtering 
+
+It isn’t a good idea to block attachments outright – employees will have difficulty sending legitimate documents internally and externally. The most appropriate way to approach this situation is to consider what file types are often used for malicious purposes, which file types the organization deals with on a regular basis, and whether blocking them would have any negative impact on the business. The most obvious file types that are used for malicious activity are:
+
+ 
+
+.exe (Executable)
+.vbs (Visual Basic Script)
+.js (JavaScript)
+.iso (Optical Disk Image)
+.bat (Windows Batch File)
+.ps/.ps1 (PowerShell Scripts)
+.htm/.html (Web Pages / Hypertext Markup Language)
+ 
+
+Typically businesses will use and send the following file formats via email, which can also be used for malicious purposes:
+
+ 
+
+.zip (Archive)
+.doc/.docx/.docm (Document file, often for Microsoft Word)
+.pdf (Portable Document Format)
+.xls/.xlsx/.xlsm (Spreadsheet file, often for Microsoft Excel)
+ 
+
+Email gateways and email security tools will often allow for different actions to be taken once a certain attachment has been identified, such as scanning it for malicious indicators, blocking the email from being delivered, quarantining the email, stripping the attachment, alerting the email gateway administrator, sending an email to specific recipients about the activity (such as the security team), or generating logs which can be ingested by a SIEM platform and used to generate an alert for security analysts to investigate.
