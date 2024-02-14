@@ -436,3 +436,33 @@ Typically businesses will use and send the following file formats via email, whi
  
 
 Email gateways and email security tools will often allow for different actions to be taken once a certain attachment has been identified, such as scanning it for malicious indicators, blocking the email from being delivered, quarantining the email, stripping the attachment, alerting the email gateway administrator, sending an email to specific recipients about the activity (such as the security team), or generating logs which can be ingested by a SIEM platform and used to generate an alert for security analysts to investigate.
+
+
+## Reporting Phishing
+
+Email Header:
+
+Sending Email Address (Ex: J0hnSm1th@gmail.com)
+Reply-to Address (Ex: F4keacc0unt2421@gmail.com)
+Date Sent (Ex: 20th October 2019, 9:34 AM)
+Sending Server IP (Ex: 40.92.10.10)
+Reverse DNS of Sending Server IP (Ex: mail-oln040092010100.outbound.protection.outlook.com)
+Recipient(s) (Ex: jason.s@domain.com, kirsty.p@domain.com, brian.b@domain.com)
+Subject Line (Ex: Payroll Update – URGENT!)
+ 
+
+Email with URLs:
+
+Any relevant URLs (Sanitised) (Ex: hxxps://Healthcare-United[.]com/wp/index/2020/PAYPAL/lure.php?)
+ 
+
+Emails with Attachments:
+
+File Name(s) + Extension (Ex: PayrollDecember_UK.exe)
+MD5 Hash(es)
+You should aim to write approximately 1-2 sentences describing what the email looks like, and what it’s trying to get the recipient to do. We cover two examples below that’ll give you some guidance on how this information, as well as the artifacts, should be presented in a clear and concise manner.
+.eml or .msg format
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/c8df5b25-7167-4826-9e7b-aea9b5cccf8c)
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/5ceab5ee-b8a5-48ea-b690-6a4a5072db18)
