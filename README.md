@@ -527,3 +527,42 @@ Requesting an email gateway block for the sending address “emailsecalert1@gmai
 The domain has been recognized as malicious, and there is no business justification for any employees needing to access this site. As it has a malicious reputation on VirusTotal, and analysis has shown that it is hosting a credential harvester, the entire domain can be blocked on the web proxy, preventing employees from connecting to the site. This will also make future phishing attacks using this same domain ineffective.
 
 Requesting a web proxy block for the domain “hxxps://emailsecalerts[.]net“.
+
+
+# Threat Intelligence
+
+Objectives:
+Understand why threat intelligence is used to aid security operations and risk management, by providing enrichment and context to investigations, threats, and vulnerabilities.
+Understand and explain what threat actors and advanced persistent threats are, including cybercriminal groups and state-sponsored hackers.
+Understand the differences and applications of operational intelligence, tactical intelligence, and strategic intelligence.
+Be able to conduct threat exposure checks using indicators of compromise to search the network and assets for any signs of intrusion using known indicators.
+Be able to conduct research into threat actors using OSINT sources to gather intelligence such as; alternative names, tools, and malware used, targeted organizations, motives, and indicators of compromise.
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/69b87f1f-3e2c-4880-93ab-22d50246312a)
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/750a7dfb-10e3-46ad-bc50-a3d6758be1f3)
+
+COMINT – Communications intelligence related to communications between people and groups of people (messages and voice) and is often synonymous with SIGINT, even though it is considered a discipline of SIGINT.
+ELINT – Electronic intelligence is collected from systems not used directly for communications, such as guidance communication for missile systems and radars.
+
+Strategic Threat Intelligence
+This type of intelligence provides high-level, typically non-technical information that can be understood by anyone. It is used when presenting to executives and other decision-makers within an organization to aid with decisions such as budget spending and policy review or creation. Below are some examples of strategic intelligence pieces:
+
+A presentation that covers global events and links them with cyber activity (such as the Coronavirus pandemic resulting in an increase of tailored phishing attacks claiming to be from health authorities such as the World Health Organization).
+A report on patterns of cyber attacks that the organization is facing over a period of time (such as recognizing that the organization is receiving a more distributed denial of service (DDoS) attacks on Monday, and suggesting plans to mitigate this).
+Keeping the internal security team informed about activity related to threat actors that target organizations operating in the same industries (such as the threat intelligence team in a bank monitoring for attacks against other banks, and updating their internal team so they are aware and can prepare for attacks).
+Strategic intelligence specialists can be very geographically-focused, understanding the political situation and motives of a country. They will then provide closer tracking of threat actors which have been linked to regions or countries that may pose a threat to the organization based on the industries it operates in. Any geopolitical tension between the country or countries the organization operates in and foreign nations. They will also focus on activity happening within the industry in which the business operates. So strategic analysts at a bank or financial institution would keep track of any cyber attacks that occur within the financial industry.
+
+ 
+
+Operational Threat Intelligence
+Operational intelligence is all about studying threat actors that might target the organization, in order to gain information about who they are, their motivations, and tactics, techniques, and procedures (TTPs) used to conduct campaigns or prolonged cyber operations. This can help to build more effective defenses by actively monitoring techniques that are used by adversaries, and understanding the actor(s) at a deeper level. This work, which is typically technical, is not easily automated and requires human analysts to track and research malicious groups.
+
+ 
+
+Tactical Threat Intelligence
+Tactical intelligence is technical in nature and is of immediate value to an organization. It is typically shared in the form of indicators of compromise (IOCs), which are known malicious artifacts such as URLs, domains, email addresses, file hashes, IP addresses, and more. These can either be used by human analysts to check for exposure or can be ingested by security tools via APIs or threat feeds. Below are some examples of tactical intelligence pieces:
+
+A list of email addresses (IOCs) that are being used to send phishing emails containing the Emotet malware is given to an analyst, and they manually check the email gateway security tool to identify any incoming emails from these addresses.
+A threat feed that can be subscribed to, which includes a constantly updated list of malicious IPs, is primarily intended to feed into network intrusion prevention systems, so they can autonomously block bad IPs.
+A public report from a threat intelligence company that includes a number of IOCs gathered by monitoring exploitation activity targeting a new zero-day vulnerability.
