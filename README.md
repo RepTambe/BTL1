@@ -646,3 +646,79 @@ Threat actors may choose to share infrastructure to make attribution to a single
 Remember our example of the US company getting hit with malware that include Russian phrases? This could have been engineering by threat actors in another country to try and mislead analysts and researchers!
 
 ![image](https://github.com/RepTambe/BTL1/assets/56054621/c16c35ad-f50d-4af9-85ee-d17e29f668d2)
+
+#### IOC monitoring-
+is an important part of security operations and can help alert security analysts to malicious activity by monitoring for the presence of any precursors or indicators of compromise across the environment. Watchlists are typically created in either the SIEM or EDR platform (or both).
+
+This allows Threat Exposure Checks (TECs) to be conducted continuously without a need for a human threat intelligence analyst to perform the searches themselves, freeing them up to work on more important tasks.
+
+### public exposure checks-
+what we mean is the process a threat intelligence analyst takes to determine what information is publicly available online about their organization, and if this can be exploited in any way to cause damage. This can range from employees posting pictures of them in the office on social media to employee credentials in data breach dumps for sale on the dark web. This work is important and works to protect the organization more than you think.
+
+Image Metadata
+Why do we care if people take selfies in the office? – We’re not robots, and let’s face it, we don’t work 100% of the time we’re at work. As long as we’re not disruptive or unproductive it’s usually fine. But taking photos at work can cause some serious issues. You’d be surprised at what information can be contained in a single photo. If you took a photo at work, depending on the device and settings, attackers could potentially discover the make and model of the device you took the photo on, the devices name (we typically name our devices after ourselves, such as “Josh’s iPhone”), the date and time the photo was taken, and in some cases even direct GPS coordinates. If this photo gets posted to social media, an attacker could immediately find the exact location of that office – super not good if it’s a secure or covert site.
+
+ 
+
+Leaked Information
+Following on from the example above of taking photos or videos in an office, there’s still more damage that can be done. Maybe the selfie looked really good and you’re getting tons of likes on Instagram, but what about the computer screens in the background that are extremely clear, and show the operating system and programs your organization uses. What about the whiteboard on the far wall with confidential business diagrams and information all over it. And the sticky note on someone’s screen with their login details. Even tiny details can help attackers in the long run. An innocent photo could end up being a goldmine of information for attackers, so be careful what you post, and refer to the organization’s social media policy!
+
+ 
+
+Early Warnings Signs of Insider Threats
+John posts on Twitter that he hates his job. Okay, maybe he’s just had a bad day. John continues to tweet how he’s had enough, he doesn’t get any respect from his peers, and he’s “going to do something about it”. This Tweet could mean a lot of different things – maybe John is going to work extra hard, or just maybe he’s going to become an insider threat, and intentionally cause damage to company assets. The security team can monitor the situation, and work to monitor this individual closer using forensic-grade tools such as DTEX. Whether the employee uses technical skills and access to damage IT equipment, steals confidential documents and gives them to competitors, or works with malicious actors to give them a foothold in the network, monitoring early signs like this could turn out to be nothing, or it could save the organization a lot of money by stopping an attack before it happens.
+
+ 
+
+Brand Abuse and Impersonation
+Social media account hijacking requires access to legitimate login credentials. Impersonations do not, and therefore are much more dangerous. Impersonations can occur when a threat actor pretends to be an individual or organization, often seeking to either tarnish a reputation, cause general chaos and confusion, or conduct a phishing campaign. With almost no effort, in the digital world, nefarious actors can create digital footprints (websites, social media, e-commerce, apps, etc.) that look like your brand and execute a monetization strategy to target your customers. The immediate impact of brand infringement on your business is lost revenue and eroded customer trust.
+
+Data breaches happen all the time, and unfortunately, sometimes employees get caught up in it. While it is not the job of the security team to alert employees if their personal email addresses have been included in data breaches, it is important when company email addresses are included, especially if passwords were leaked. Password reuse is common, and it won’t go away – it’s just too convenient, but it’s very insecure. If James G was going on a work trip and stayed with The Blue and White Hotel when he books it he’ll probably use his work email, as it’s a work trip, and he can get the expenses refunded by the company. If the hotel gets hacked, and email addresses and passwords are leaked, it’s only a matter of time before someone tries to use James’ credentials elsewhere.
+
+ 
+
+Acquiring Data Breach Lists
+Sometimes these lists can be shared on the clear web, and threat intelligence analysts can acquire them for analysis, looking for any company-owned email addresses. Other times it can be a lot harder to get access, such as if the list is only being sold to trusted customers on the dark web. Threat intelligence companies around the world work hard to infiltrate dark web marketplaces, and will sometimes purchase data breach lists on behalf of all their clients, allowing them access to only the data related to their organization, reducing further exposure of credentials or private details.
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/56abea27-9665-4456-852d-6e0f241fff92)
+
+
+## What Does MISP do?
+ 
+
+Facilitate the storage of technical and non-technical information about seen malware and attacks
+Automatically create relationships between malware and their attributes
+Store data in a structured format (allowing automated use of the database to feed detection systems or forensic tools)
+Generate rules for Network Intrusion Detection System (NIDS) that can be imported on IDS systems (e.g. IP addresses, domain names, hashes of malicious files, pattern in memory)
+Share malware and threat attributes with other parties and trust-groups
+Improve malware detection and reversing to promote information exchange among organizations (e.g. avoiding duplicate works)
+Create a platform of trust – trusted information from trusted partners
+Store locally all information from other instances (ensuring confidentiality on queries)
+ 
+
+ 
+
+ 
+
+How Does MISP Work?
+ 
+
+Malware Information Sharing Platform is accessible from different interfaces like a web interface (for analysts or incident handlers) or via a ReST API (for systems pushing and pulling IOCs). The inherent goal of MISP is to be a robust platform that ensures a smooth operation from revealing, maturing, and exploiting the threat information.
+
+There are 4 options regarding distributing events and their respective attributes:
+
+Your organization only (private)
+This community only
+Connected communities
+All communities (public)
+There is also a set of sharing groups accessible to various members per sector (such as the Financial sector).
+
+MISP, Malware Information Sharing Platform and Threat Sharing, core functionalities are:
+
+An efficient IOC and indicators database allows to the storage of technical and non-technical information about malware samples, incidents, attackers, and intelligence.
+Automatic correlation finding relationships between attributes and indicators from malware, attack campaigns, or analysis. The correlation engine includes a correlation between attributes and more advanced correlations like Fuzzy hashing correlation (e.g. ssdeep) or CIDR block matching. Correlation can also be enabled or event disabled per attribute.
+Built-in sharing functionality to ease data sharing using different models of distributions. MISP can automatically synchronize events and attributes among different MISP instances. Advanced filtering functionalities can be used to meet each organization’s sharing policy including a flexible sharing group capacity and attribute level distribution mechanisms.
+An intuitive user interface for end-users to create, update and collaborate on events and attributes/indicators. A graphical interface to navigate seamlessly between events and their correlations. An event graph functionality to create and view relationships between objects and attributes. Advanced filtering functionalities and warning lists to help the analysts to contribute events and attributes and limit the risk of false positives.
+Export: generating IDS, OpenIOC, plain text, CSV, MISP XML or JSON output to integrate with other systems (network IDS, host IDS, custom tools), Cache format (used for forensic tools), STIX (XML and JSON) 1 and 2, NIDS export (Suricata, Snort and Bro/Zeek) or RPZ zone. Many other formats can be easily added via the misp-modules.
+Import: bulk-import, batch-import, import from OpenIOC, GFI sandbox, ThreatConnect CSV, MISP standard format or STIX 1.1/2.0. Many other formats easily added via the misp-modules.
+STIX support: import and export data in the STIX version 1 and version 2 format.
