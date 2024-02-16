@@ -566,3 +566,83 @@ Tactical intelligence is technical in nature and is of immediate value to an org
 A list of email addresses (IOCs) that are being used to send phishing emails containing the Emotet malware is given to an analyst, and they manually check the email gateway security tool to identify any incoming emails from these addresses.
 A threat feed that can be subscribed to, which includes a constantly updated list of malicious IPs, is primarily intended to feed into network intrusion prevention systems, so they can autonomously block bad IPs.
 A public report from a threat intelligence company that includes a number of IOCs gathered by monitoring exploitation activity targeting a new zero-day vulnerability.
+
+https://www.tenable.com/blog/predictive-prioritization-is-now-available-in-tenable-io
+### Precursors: 
+Port Scanning, Operating System and Application Fingerprinting
+One of the most effective ways to obtain information about a network is through scanning. Using tools such as Nmap, Netcat, or Nessus, both a researcher and an attacker can learn about the services and vulnerabilities that exist on a system. A lot of information can be gained from performing host discovery, port scanning, and vulnerability scanning activities, such as which ports or services are running and responding on a system, what operating system is installed on the system, and what applications and versions of applications are present.
+
+When considering the precursors that this activity would generate, we would mainly be looking to monitor network connections and event logs from internet-facing systems.
+
+Logs from firewalls or web application firewalls (WAFs) that have rules written to alert and log when one source IP is attempting to connect on X number of ports over a short period of time.
+Logs from systems that are being scanned.
+ 
+
+Social Engineering and Reconnaissance
+Another way to obtain the greatest amount of information about an organization is, without a doubt, social engineering. This is because, with social skills and deception, both an attacker and a researcher can learn about any type of information and vulnerabilities of an organization. Techniques such as “dumpster diving” (searching for items in the rubbish such as USB sticks, printed documents, notebooks, etc) or “eavesdropping” (Listening to conversations between employees) are very useful for identifying pieces of information that can be brought together to potentially discover vulnerabilities that can be exploited by an attacker.
+
+When considering the precursors that this activity would generate, we would mainly be looking to listen to employee reports of unusual or suspicious activity or CCTV footage from both inside and outside the office.
+
+Non-employees looking through the organization’s bins that are conducting ‘dumpster diving’.
+Non-employees hanging around outside the office or lobby areas.
+Employees being engaged with outside or near the office by unknown individuals.
+Calls from unknown, withheld or spoofed phone numbers.
+Documents or office equipment going missing.
+ 
+
+OSINT Sources and Bulletin Boards
+And finally, we have the review of social media, blogs, forums, and bulletin boards, security articles and reports, and other OSINT data both on the clear web and dark web.
+
+When considering the precursors that this activity would generate, we would mainly be looking to monitor OSINT sources using free tools such as TweetDeck and paid intelligence resources such as Recorded Future.
+
+An email or online message from a threat group threatening or stating they will attack the organization.
+Publicly disclosed vulnerabilities (CVEs) that affect systems or programs that are used by the organization.
+Chatter on underground forums about a zero-day or new malware that is being exploited or utilized in the wild.
+Reports stating an increase in vulnerability exploitation activity supplied by government organizations or intelligence vendors.
+
+STIX and TAXII
+
+
+https://medium.com/mitre-attack/getting-started-with-attack-cti-4eb205be4b2f
+https://www.pscp.tv/w/1yoKMVDjbrkGQ
+
+### Attribution
+
+Machine Attribution
+Attributing malicious cyber activity to a machine or multiple machines would mean identifying the machine(s) used in an attack. This would usually require examining things like the IP address, log files that document what is happening in the network, who has logged in to the machine. So, we could find out that Azleon’s machine was used in an attack but find a trail leading to Jupiter’s machine which was the originating point of attack. There could be multiple machines in a trail. The IP address may be in another country or require further investigation. Should the IP lead back to Azleon then law enforcement could seize that machine for investigation.
+
+ 
+
+Human Attribution
+Attributing the malicious activity to a human is finding the identity of the person(s) responsible for the activity, those pushing the keys as it were. Technical forensics which looks at data left behind may not be able to help much further, credentials may point to one person but that may not have been the person physically executing the attack. Credentials get stolen or machines compromised. Technical means may not be enough to identify the person involved as data collected would need to be compared to a database to match an identity, therefore it is only as good as the database. If you can identify the person responsible it is vital to know why it was carried out and if other parties were involved.
+
+ 
+
+Ultimately Responsible Attribution
+Attributing this malicious activity to the ultimately responsible party answers the question of who is to blame? Was the actor working alone and fully responsible or working on behalf of an organization or nation-state? The “why” is often a more important factor here as people can be coerced into committing these acts, or may be in a position that they feel they can’t refuse. Law enforcement could decide to prosecute an individual or a nation could decide to engage in diplomatic discussion with the offending nation, they might then attribute this to an organization and prosecute or even retaliate.
+
+As you can see the process of assigning attribution can be difficult and complicated, even more so when it is easy to use proxies in other countries. Then requiring deeper and longer investigations will need more cooperation with other agencies.
+
+Key Indicators to attribution
+Tradecraft – Frequently used behaviors such as an attacker’s techniques, tools, and procedures used to conduct cyber-attacks.
+Infrastructure – The physical machines or networks used in the attack; are often compromised by other means before an attack.
+Malware – Malware can be specific to a threat actor; it can be reused or it can be modified quickly if a compromise is suspected to avoid attribution.
+Intent – The intent behind the attack, the motivation, or reasoning.
+External sources – External reports from organizations like cyber security companies, media even students.
+ 
+
+Cyber Attribution Techniques
+Investigators use many different tools and programs to reveal information about attacks. As an example, let's consider a US-based company that was attacked with malware. This was written in a non-native language, the Cyrillic alphabet. This information can be used by security professionals to help identify the actors behind it. If the malware itself is written with references to Cyrillic, Russian actors could be involved.
+
+Some threat actors, based on their intentions and motived, may WANT to be recognised for their attacks, Example of this could include intentionally fingerprinting malicious files, setting specific filenames during attacks, initiating connections from IP addresses or domains previously linked to the actor, and using custom malware not utilized by any other groups.
+
+ 
+
+Issues with Attribution
+A major difficulty in analyzing data from attacks is to determine what can be reliable. Metadata such as source IP addresses, email data, domain names, user names, and registration data can all be helpful. Still, it may be faked, through proxies and by using other compromised targets to carry out the attack. The TOR browser can enhance anonymity for malicious actors and automatically encrypts traffic.
+
+Threat actors may choose to share infrastructure to make attribution to a single group harder or use commodity malware or living-off-the-land techniques to prevent identification via the use of unique tools or techniques. Copy-cat attacks can occur where one malicious actor will use the same tools and techniques as another actor in an attempt to trick researchers and threat intelligence analysts into believing the attack was conducted by the other group.
+
+Remember our example of the US company getting hit with malware that include Russian phrases? This could have been engineering by threat actors in another country to try and mislead analysts and researchers!
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/c16c35ad-f50d-4af9-85ee-d17e29f668d2)
