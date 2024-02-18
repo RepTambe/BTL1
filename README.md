@@ -942,6 +942,8 @@ Static wear leveling – The same techniques are employed by static wear-levelin
 ### File Systems
 
 
+![image](https://github.com/RepTambe/BTL1/assets/56054621/9f5773f4-d045-44a6-805d-046947bf0741)
+
 
 EXT3 / EXT4
  
@@ -960,3 +962,38 @@ Third extended filesystem (Ext3), is a journaled file system that is commonly us
 
 Fourth Extended Filesystem (Ext4)
 The stable version of ext4 was introduced in 2008 by Linux. The maximum volume size of data supported by ext4 is 1exbibyte and file size is up to 16 tebibytes. The maximum length of the filename is 56 bytes. The fragmentation in terms of physical blocks where data is stored, is replaced by extents. This modification, which was not available in ext2 and ext3, increased the performance of the file system. Extent is a data storage area that reduces file fragmentation and file scattering.
+
+
+## Digital Evidence
+
+E-mails - These can contain written communication between two or more individuals, and may also contain files as attachments.
+Digital Photographs - The photos themselves can be evidence, additionally extra information may be present as photo metadata, which can include the location and device used to take the photograph.
+Logs - System logs can contain a wide range of information, depending on the device that has created the log, and the level of logging enabled. Examples can include Windows Event logs that can show login times to show when a user account was accessed.
+Files - User files such as notes, code, images, installed software, and more can all provide context about the activity of a user.
+Messages - Similar to emails, messages (text, iMessage, Facebook Messenger, WhatsApp, etc) can provide information about a conversation between two or more individuals.
+Browser History - This can help us to understand what websites and resources have been accessed from a device, and at what time.
+Backups - If files have been deleted, they may be present in backups, allowing us to investigate them even if they have been overwritten on the original storage medium.
+Video/audio files - These files, similarly to digital photographs, could be evidence themselves, but could also have metadata to help provide additional information.
+
+Proper handling and securing of evidence are critical. Mistakes in how evidence is acquired can lead to that evidence being tainted and, subsequently, not forensically sound. In addition, if an incident involves potential legal issues, critical evidence can be excluded from being admitted in a criminal or civil proceeding. There are several key tenets for evidence handling that need to be followed, as listed here:
+
+ 
+
+– Altering the original evidence: Actions taken by digital forensics examiners should not alter the original evidence. For example, forensic analysts should not access a running system if they do not have to. It should be noted that some of the tasks that will be explored have the potential to alter some of the evidence. By incorporating proper documentation and having a justifiable reason, digital forensics examiners can reduce the chance that evidence will be deemed tainted.
+
+ 
+
+– Using write-blockers: Although most forensic software tools have built-in software write blockers, you also need an assortment of physical write blockers to cover as many situations or devices as possible. A write blocker is used to keep an operating system from making any changes to the original or suspect media to keep from erasing or damaging potential evidence. Software write blockers work at the operating system level and are specific to the operating system. In other words, a software write blocker works on only the operating system in which it is installed. A physical write blocker works at the hardware level and can work with any operating system because, at the physical level, the write blocker is intercepting (or, in many cases, blocking) electrical signals to the storage device and has no concern about which operating system is in place.
+
+ 
+
+– Document:  One central theme you will often hear in law enforcement is the phrase: “If you didn’t write it down, it didn’t happen.” This is especially true when discussing digital forensics. Every action that is taken should be documented in one way or another. This includes detailed notes and diagrams. Another way to document is through photographs. Proper documentation allows examiners to reconstruct the chain of events if ever the integrity of evidence is called into question.
+
+
+ ![image](https://github.com/RepTambe/BTL1/assets/56054621/4af76194-96a8-440c-9095-19c440e7389d)
+
+
+###  Metadata and FileCarving
+
+We can also retrieve metadata in a Linux system by using the same method as above, right-clicking on a file and viewing the properties, or using two commands, ls -lisap <file> and stat <file>, as shown below. In this case, we’re provided with information such as the read/write permissions we have, the file name and size, and the times for when the file was last accessed and modified.
+A great command-line tool we can use in Kali Linux is exiftool, which works to retrieve metadata from files
