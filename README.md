@@ -856,3 +856,107 @@ It is expected that permitted actions will be invisible to potential adversaries
 
 Example:
 Threat hunting and Incident Response teams are to be mentioned here as they typically have insight and capabilities to monitor infrastructures to confirm the absence or detect the appearance of a threat while maintaining the integrity of the isolated network their are monitoring.
+
+# Digital Forensics
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/36590cc6-6b27-4a23-b4ea-dfec905860df)
+A crucial activity that accompanies the first four steps is contemporaneous notetaking. This is the documentation of what you have done immediately after you have completed it and should provide sufficient detail for another person to reproduce what you have done from the notes alone. The chain of custody, which we cover later in this domain, should also be followed at every stage of the investigation to ensure that evidence integrity is not compromised.
+
+Free Course, Digital Forensics by OpenLearn
+// https://www.open.edu/openlearn/science-maths-technology/digital-forensics/content-section-0?active-tab=description-tab
+
+
+ #### Binary
+ It is a simple and elegant design.
+Binary’s 0 and 1 method is quick to detect an electrical signal off or on state.
+The positive and negative poles of magnetic media are quickly translated into binary.
+Binary is the most efficient way to control logic circuits.
+
+#### Base64
+Base64 is a reversible encoding algorithm that allows for the transformation of data from the original form to strings such as the one above. We use eight-bit bytes,
+VGhpcyBzZW50ZW5jZSBkb2Vzbid0IHJlYWxseSBtZWFuIGEgbG90LiBTb3JyeS4=
+
+#### Hexadecimal
+![image](https://github.com/RepTambe/BTL1/assets/56054621/1ccb4010-3b06-4838-8356-4781431191d1)
+
+#### Octal
+![image](https://github.com/RepTambe/BTL1/assets/56054621/3381464c-893c-481b-8116-62250836b0d0)
+
+Let’s explain this with an example. Start with a binary number:
+
+10011111
+Group the binary number into threes from the right. Add a zero to the left if there are only 2 digits left:
+
+(0)10-011-111
+Convert each three-digit group into an octal number by counting from left to right:
+
+2-3-7
+Combine the numerals to form the octal number:
+
+237
+Using an octal number instead of a binary number saves digits. In the above example we went from 8 digits down to 3, yet the final value still means the same thing as the original. In the early days of computing, octal was often used to shorten 12-bit, 24-bit or 36-bit words. Hexadecimal is now more commonly used in programming, making number representations even shorter than octal.
+
+You’re probably wondering where octal is actually used. Arguably the most common use is in Linux or UNIX file and directory permissions. Using the chmod command, administrators can assign read, write and execute privileges to users and groups.
+
+#### ASCII
+ASCII (American Standard Code for Information Interchange) is the most common format for text files in computers and on the Internet. In an ASCII file, each alphabetic, numeric, or special character is represented with a 8-bit binary number (a string of eight 0s or 1s).
+![image](https://github.com/RepTambe/BTL1/assets/56054621/1f5171f9-8e8e-46f4-a532-5a840fb4a9ba)
+
+
+## Data Representation
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/828e4f54-86be-4225-b147-a8dbdaaf534f)
+
+A hard disk drive platter (or disk) is the circular disk on which magnetic data is stored in a hard disk drive. The rigid nature of the platters in a hard drive is what gives them their name (as opposed to the flexible materials which are used to make floppy disks). Hard drives typically have several platters which are mounted on the same spindle. A platter can store information on both sides, requiring two heads per platter.
+
+A cluster, in the context of a hard disk, is a group of sectors (described above) within a disk and is the grouping by which disk files are organized. A cluster is larger than a sector, and most files fill many clusters of disk space. The hard drive is able to find all the clusters on a disk because each cluster possesses its own unique ID value.
+ 
+Slack space is the leftover storage that exists on a computer’s hard disk drive when a computer file does not need all the space it has been allocated by the operating system. The examination of slack space is an important aspect of computer forensics as we can find the remaining data from previous files allocated in the same cluster. For example, if a user deleted files that filled an entire hard drive cluster, and then saved new files that only filled half of the cluster, the latter half would not necessarily be empty. It may include leftover information from the deleted files that we can retrieve, and may potentially include evidence.
+
+### SSD
+
+#### Garbage
+ 
+
+Garbage collection is a process used by solid-state drives to optimize space and improve efficiency. The goal of garbage collection is to keep as many empty blocks as possible so that when the SSD needs to write data, it can do so without waiting for a block to be erased. The SSD’s controller looks for any pages that are no longer being used, such as deleted data and modified data. It then moves used pages to new blocks, leaving behind the data that is no longer needed. The controller then erases the block so that it’s ready for use. This is a background process, handled by the SSD controller and the operating system.
+
+Why is garbage collection important in regard to digital forensics? If we have crucial evidence on a system, there’s always the risk that garbage collection will identify the blocks either legitimately or illegitimately as unwanted, and the controller will erase the blocks in order to free up space. If a computer is using solid-state drives, it needs to be powered off immediately to prevent this from happening, either with a hard shut-down (holding the power button until the system turns off), or by pulling the plug so the power supply unit (PSU) receives no electricity. Shutting down the system via the operating system could execute a malicious script that works to destroy data contained on any attached drives, and could ruin an investigation (but we need to remember volatile evidence, which we’ll cover later!).
+
+#### Trim
+ 
+
+When files are sent to locations such as the Recycle Bin, they are not immediately deleted. Moving them to this location tells the operating system that it is ok to overwrite these files, as they are no longer wanted by the user. If a deleted file is 174192 bytes, and a new file is only 121 bytes, then there will still be 174071 bytes of the deleted file available, so we can recover this and attempt to fix the file so we can see what it was, even with some missing data. However, TRIM operates similarly to Garbage Collection, and instead of telling the SDD to make the size of the deleted file unallocated (available for overwriting), TRIM on an SSD will simply select the data and clear it, removing any chance of forensic investigations recovering the file, or parts of the file.
+
+To counter this, we should take the same actions when dealing with Garbage Collection, as they work together. Power the system off with a hard shut-down or pull the plug (again, we need to remember volatile evidence, which we’ll cover later!).
+
+#### Wear Levelling
+ 
+
+Wear leveling is a technique that some SSDs utilize to increase the lifetime of the memory using a very simple approach: evenly distribute writing on all blocks of an SSD so they wear evenly. Using this method, all physical cells in the SSD receive the same number of writes, to avoid writing too often on the same blocks, causing damage over time.
+
+Wear leveling is performed by the micro-controller or the firmware of the SSD device. The process of wear leveling is conducted by algorithms, of which there are two basic varieties.
+
+Dynamic wear leveling – When dynamic wear leveling is used blocks that undergo rewriting are repositioned to new blocks. The algorithm selects an empty block on which to write the data. The number of writes to each block is kept track of by the controller. A downside to dynamic leveling is that data blocks that are not frequently updated are not moved which can lead to uneven block wear.
+Static wear leveling – The same techniques are employed by static wear-leveling with one important difference. Blocks of static data are moved when their block erase count falls below a certain threshold. This leads to more effective leveling which results in slightly slower write performance countered with enhanced longevity of the device.\
+
+### File Systems
+
+
+
+EXT3 / EXT4
+ 
+
+Linux Architecture
+Before we take a look at EXT3 and EXT4, we’re going to quickly cover the architecture of Linux file systems. These filesystems are divided into three parts:
+
+User Space – The applications are located in the user space, which sends system calls to the system call interface. System call is nothing but a request that is sent to the kernel of the operating system, for a service.
+Kernel Space – Kernel is the core of the operating system that answers the system calls from the user space by providing the requested resources, managing the I/O (input/output) devices, memory devices, file management etc.
+Disk Space – The device driver in the kernel space sends the I/O request to the hard disk of the system which contains critical file data.
+ 
+Third Extended Filesystem (Ext3)
+Third extended filesystem (Ext3), is a journaled file system that is commonly used by the Linux kernel. It is the default file system for many popular Linux distributions. The changes made in the journal, which is a circular log present in the file system, is monitored by ext3 which is called journaling. Journaling filesystem is an additional feature in ext3, which was not in ext2. In a non-journaled filesystem, data recovery and detecting the errors involved more time, as we may have to go through the entire data structure of the directory. But, in a journaled filesystem, we have a journal that keeps track of the changes we do in the file system. So, to detect the errors or recover data, after a crash, it just requires reading the journal instead of processing the whole data structure.
+
+ 
+
+Fourth Extended Filesystem (Ext4)
+The stable version of ext4 was introduced in 2008 by Linux. The maximum volume size of data supported by ext4 is 1exbibyte and file size is up to 16 tebibytes. The maximum length of the filename is 56 bytes. The fragmentation in terms of physical blocks where data is stored, is replaced by extents. This modification, which was not available in ext2 and ext3, increased the performance of the file system. Extent is a data storage area that reduces file fragmentation and file scattering.
