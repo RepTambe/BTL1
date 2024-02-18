@@ -1028,3 +1028,9 @@ Starting with Windows 2000, Microsoft introduced the hibernation feature that al
 
 Electro-Static Evidence Bags with Tamper-proof Stickers
 ![image](https://github.com/RepTambe/BTL1/assets/56054621/ad405123-906d-439a-af59-9b5d0e43c0a0)
+
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/a925e59c-132f-4600-8b60-701efdd70e88)
+
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/de4bd031-6914-41c2-9107-8c91429a2a3b)
