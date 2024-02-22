@@ -1034,3 +1034,81 @@ Electro-Static Evidence Bags with Tamper-proof Stickers
 
 
 ![image](https://github.com/RepTambe/BTL1/assets/56054621/de4bd031-6914-41c2-9107-8c91429a2a3b)
+
+
+## Windows Investigation
+
+Question 1 - Analyze the .LNK files in the Shortcuts folder using Windows File Analyzer - What is the full file name of the PlagueRat file?
+
+Open Windows File Analyzer by right-clicking it and selecting ‘Run as Administrator’ (C:\\Users\\BTLOTest\\Desktop\\Windows Investigation One\\WFA.exe), then choose File > Analyze Shortcuts... and choose C:\\Users\\BTLOTest\\Desktop\\Windows Investigation One\\Shortcuts folder.
+
+Next, look a the row (marked in red) and look at the file name (marked in yellow).
+
+We can see that ‘Plaguerat' is found in the Filename column. Looking along the row we find lots of useful information.
+
+Question 4 - Analyze the Prefetch files using PECmd.exe - What is the full file name of the PlagueRat file in CMD.EXE-89305D47.pf?
+
+Open a command prompt and move to the location of PECmd.exe using cd "C:\Users\BTLOTest\Desktop\Windows Investigation One\PECmd\" , then run the following command:
+
+PECmd.exe -f "C:\Users\BTLOTest\Desktop\Windows Investigation One\Prefetch\CMD.EXE-89305D47.pf"
+
+
+Question 6 - Analyze the Prefetch files using PECmd.exe - Open all .pf files by pointing PECmd at the /prefetch/ directory using the -d flag. Add the following to your command -k "plaguerat.ps1" to highlight rows that mention this string in red - What two applications were used to open PlagueRat.ps1?
+
+Open a command prompt and move to the location of PECmd.exe, then run the following command:
+
+PECmd.exe -k “plaguerat.ps1” -d "C:\Users\BTLOTest\Desktop\Windows Investigation One\Prefetch\"
+
+Because we've used the -k flag to highlight string matches (PECmd.exe will also match certain strings by default, so not every red-highlighted line will be relevant to us) we can look for red lines to see if they contain ‘plaguerat.ps1’ or not. Going from the bottom of the output upwards we can find our first match:
+
+
+## Windows Artifacts
+Artifact Description
+
+Identifying what user accounts have logged into a system, and at what time, can be useful for both digital forensic investigations and incident response. Doing so can help us attribute activity to a user account by showcasing they were the account signed in before these events occurred. For this artifact, we're looking specifically at:
+
+### Event ID 4624 (Successful Logon)
+### ID 4672 (Special Logon)
+
+Special Logon events are when a user with administrative privileges logs into the system.
+### ID 4625 (Failed Logon)
+
+Failed Logon events are very useful for us, especially when dealing with incident response. This is because these logs contain error codes, which help us to understand exactly why the logon attempt failed. The different error codes are:
+![image](https://github.com/RepTambe/BTL1/assets/56054621/4c647289-56c4-482b-81cb-33523e594a17)
+
+### ID 4634 (Logoff)
+
+One of the most important properties for us to note is the Logon Type, where there are 8 possible values:
+
+2 – Interactive (interactively logged on, meaning a physical logon to the device)
+3 – Network (accessed system via network)
+4 – Batch (started as an automated batch job)
+5 – Service (a Windows service started by service controller)
+6 – Proxy (proxy logon; not used in Windows NT or Windows 2000)
+7 – Unlock (unlock workstation - think Interactive logon, but unlocking to resume a previous session)
+8 – NetworkCleartext (network logon with cleartext credentials)
+9 – NewCredentials (used by RunAs when the /netonly option is used)
+
+
+Question 1) What is the FileName value of the largest deleted file detected?
+
+First, we'll type CMD into the Windows menu and right-click it to run as Administrator. We'll then cd into the Recycle Bin directory.
+
+ 
+
+
+ 
+
+Next we'll run RBCmd using the following command:
+
+C:\Users\BTLOTest\Desktop\Recycle-Bin-Analysis\Tools\RBCmd.exe -d . --csv C:\Users\BTLOTest\Desktop\
+
+This will run RBCmd.exe in the Recycle Bin directory, and generate a CSV inside an output folder on our Desktop called “Output”.
+ 
+
+Next we'll open the CSVQuickViewer application from the folder on the Desktop.
+
+
+If we receive the Search for app in the Store? popup, we can just click Yes to launch the program anyway.
+
+Click Open File in the top-left corner and select the CSV within the Output folder. We can now start to triage the results!
