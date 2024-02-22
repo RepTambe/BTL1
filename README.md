@@ -1286,3 +1286,33 @@ For this question we're going to use the ‘netscan’ plugin and look for the p
 ### Question 10 - memdump2.mem - Process dump - Dump the process with PID 2940 and calculate the MD5 hash. Submit the first 5 characters
 
 Using the ‘procdump’ plugin and providing the PID using -p, we can extract the file. We'll then use ‘md5sum’ to get the MD5 hash value. python vol.py -f /home/ubuntu/Desktop/Volatility\ Exercise/memdump2.mem --profile=Win7SP1x64 procdump -p 2940
+
+
+### Vov 3 vs Vol 2
+
+Volatility 3 Changes
+ 
+
+One of the most important changes is that profiles are no longer required when running commands. Remember in Vol 2 when we had to initially run volatility -f memdump.mem imageinfo to get the right profile? And then we used that value in every subsequent command (like volatility -f memdump.mem --profile=Win7SP1x64 pslist). That's gone, and has been replaced with a library of symbol tables, which makes it easier and quicker to identify structures in a memory image, allowing us to process it and retrieve information.
+
+ 
+
+The way we use plugins has changed too. Previously we would add the plugin name to the end of our command, such as volatility -f memdump.mem --profile=Win7SP1x64 pslist where ‘pslist’ is the plugin. As we're no longer using profiles, plugins have been changed to be OS-specific. Let's take a look at some examples.
+
+ 
+
+COMMAND PURPOSE	VOLATILITY 2 COMMAND	VOLATILITY 3 COMMAND
+Get process tree	volatility --profile=PROFILE pstree -f file.dmp    	python3 vol.py -f file.dmp windows.pstree
+List services	volatility --profile=PROFILE svcscan -f file.dmp   	python3 vol.py -f file.dmp windows.svcscan
+List available registry hives	volatility --profile=Win7SP1x86_23418 -f file.dmp hivelist   	python3 vol.py -f file.dmp windows.registry.hivelist
+Print cmd commands	volatility --profile=PROFILE cmdline -f file.dmp   	python3 vol.py -f file.dmp windows.cmdline
+ 
+
+--profile is no longer present in Vol 3
+Generic plugin names are now replaced with OS-specific plugins
+pstree > windows.pstree, linux.pstree, mac.pstree
+ 
+
+It will take some time getting used to, as you'll need to remember different plugin names, but here's a great resource that easily allows you to change between Vol 2 and Vol 3 plugin names - [Link.](https://blog.onfvp.com/post/volatility-cheatsheet/)
+
+Thankfully, we'll be covering a graphical user interface tool for Volatility3, so we don't need to remember all of these commands!
