@@ -1,7 +1,12 @@
 # BTL1
 BTL1 Study! Gold Coin OTW! Started 02/09/24
 
+# Toosl to study
 
+Volatity
+Splunk
+Memdump
+Windows
 
 # Security Fundementals
 
@@ -1112,3 +1117,172 @@ Next we'll open the CSVQuickViewer application from the folder on the Desktop.
 If we receive the Search for app in the Store? popup, we can just click Yes to launch the program anyway.
 
 Click Open File in the top-left corner and select the CSV within the Output folder. We can now start to triage the results!
+
+### Linux Artifcats
+
+etc/passwd- keeps track of every registered user. only superusers can write to this file. 
+etc/shadow- keeps track of all passweords. Only root can see this file. 
+
+### var/lib
+ 
+Installed Software and Packaging
+On Debian-based systems, we can find a very useful file at the following location: /var/lib/dpkg/status. This file includes a list of all installed software packages, and can be a gold mine if you’re looking to see what programs the user has installed to the system. Alternatively, we could open the file in a terminal, take every line that contains ‘Package’ (as we know this holds the package name), and save this to a text file so we can look at it without the noise of all the extra package details. The command for this would be:
+
+cat status | grep Package > packages.txt
+
+### var/log
+ 
+The log files present in this directory are sometimes dependent on the linux-based operating system that is being used, so you may not see all of these listed below. We're focusing on the main ones that are relevant to us as cybersecurity professionals, and that provide us with useful information and artifacts, however there are lots more out there.
+
+### Operating System Logs
+
+
+/var/log/auth.log – Contains system authentication information, including user logins.
+
+/var/log/dpkg.log – Contains information that is logged when a package is installed or removed using the ‘dpkg’ command. This is similar to the packages command from the var/lib section above.
+
+/var/log/btmp – This file contains information about failed login attempts.
+/var/log/cron – Whenever the cron daemon starts a cron job, it logs the information about the cron job in this file. This is useful because cron jobs can be abused for persistence on a system.
+/var/log/secure – Contains information related to authentication and authorization privileges. For example, sshd (the daemon used for the SSH service) logs all the messages here, including unsuccessful login attempts.
+/var/log/faillog – Contains user failed login attempts.
+
+### Web Server Logs
+
+Linux-based systems are often used to run web server frameworks, such as Apache and Nginx. Focusing on Apache, we can find an extremely useful log in 'var/log/apache2/access.'log' that provides us with information about requests made to the web server including values such as:
+
+The client IP address making the request
+The resource they are trying to access
+The HTTP method, which will most often be GET (to get a resource, such as images in a web page)
+The user-agent used by the client IP (this should typically be a browser user-agent, such as Chrome, Firefox, etc)
+and the timestamp of the request
+ 
+
+Let's look at an example.
+
+52.50.100.106 - SBTUser [27/Jul/2020:15:30:00 -0600] "GET /logo.png HTTP/1.1" 200 379
+
+52.50.100.106 - The IP address of the client making the request to the web server
+SBTUser - The userid of the account making the request (if they are logged in and the website is using accounts)
+[27/Jul/2020:15:30:00 -0600] - The timestamp of the request
+“GET /logo.png HTTP/1.1” - The resource that is being accessed, in this case the IP is retrieving the logo image file so it can be displayed on a page
+200 - The HTTP response code. In this case it is 200 OK (successfully accessed). In other cases it might be 404 if the resource isn't found.
+379 - The size of the file sent to the client (in this case, the size of logo.png)
+
+ls = list directory contents
+ls -a = list directory contents and do not ignore entries starting with .
+So make sure to always be using ls -a where appropriate to ensure you don’t miss any files hidden using this very simple technique.
+
+#### Clear Files
+ 
+Let’s start off by defining what we mean by “clear files”. These are any files that are accessible through standard means, such as the terminal or the graphical browser. This includes areas such as:
+
+A user’s desktop
+A user’s default directories, including; Downloads, Music, Pictures, Public, Templates, Videos
+The Trash Bin
+These areas can simply be looked through normally using a terminal or file browser, and may contain useful files if the suspect hasn’t bothered to hide them. However, innocent-looking files can contain hidden data, which we will cover below.
+
+## Steganography
+Using the command cat Dog.jpg secretmessage.zip > Dog2.jpg we can insert the ZIP file into the image of a dog, creating a new file named Dog2.jpg!
+Without any technical knowledge, you’d just assume that this image is legitimate, and it can still be opened like a normal image file. But, if we use the unzip command on the image file, we’ll retrieve the files that were inside the hidden ZIP file.
+
+### Using Steghide to Hide and Retrieve Files
+In a similar way to what we achieved with the cat command, we can do the same using Steghide, but this time we can password protect the file we’re hiding data inside, known as the cover file. We’re going to hide secretmessage(.txt) inside Dog.jpg using this tool. The command we want to use is steghide embed -cf Dog.jpg -ef secretmessage.
+
+steghide – summons the tool we want to use
+embed – selects the operation we want to use, in this case embedding a file in another
+-cf Dog.jpg – the ‘cover file’ flag is where we state the file that will hold the hidden file
+-ef secretmessage – the ’embed file’ flag is where we state the file we want to hide inside the cover file
+Once we’ve entered this command, we’ll be prompted to enter a password, we’re going to press [Enter] twice to not use a password.
+Now let’s delete secretmessage and try to recover the copy we hid inside Dog.jpg. We want to use the command steghide extract -sf Dog.jpg.
+
+steghide – summons the tool
+extract – selects the extract operation
+-sf Dog.jpg – the ‘steganography file’ flag is used to tell steghide which file we believe contains data hidden via steganography, which is our cover file from above
+Obviously hiding files in this method with passwords makes it harder for forensic investigators, as they’ll need to know or retrieve a valid password to retrieve the file. But tools exist that allow for the brute forcing of passwords to recover hidden files, such as Stegcracker
+
+### Hiding Strings in Metadata
+
+Another way to hide information is to insert text strings into the metadata of a file. We can embed and extract strings using a tool called ExifTool. Run the command exiftool on your Kali system, if it is not found, use the following command to install it: sudo apt-get install exiftool. We’re going to embed the phrase “Super Sneaky!” into the metadata of Dog.jpg using the command exiftool -Comment="Super Sneaky!" Dog.jpg. Below you can see that when the command has completed it will generate a new file using the name of the original file, and replacing the original with <filename><.extension<+_original>, in our case the original file is renamed to Dog.jpg_original.
+
+
+## Memory Analysis with Votality
+
+Volatility is an open-source memory forensics framework for incident response and malware analysis. It is written in Python and supports Microsoft Windows, Mac OS X, and Linux operating systems. Volatility was originally created by computer scientist Aaron Walters, drawing on academic research he did in memory forensics. This is a very powerful tool, and we can complete lots of interactions with memory dump files, such as:
+
+List all processes that were running.
+List active and closed network connections.
+View internet history (IE).
+Identify files on the system and retrieve them from the memory dump.
+Read the contents of notepad documents.
+Retrieve commands entered into the Windows Command Prompt (CMD).
+Scan for the presence of malware using YARA rules.
+Retrieve screenshots and clipboard contents.
+Retrieve hashed passwords.
+Retrieve SSL keys and certificates.
+And lots more!
+
+Volatility needs profiles to work. When we have the memory image file we want to analyze we first need to use the command volatility -f memdump.mem imageinfo. Once this command is run, Volatility will identify the system the memory image was taken from, including the operating system, version, and architecture. For example, if we took a memory image from a Windows 7 machine with Service Pack 1 and it had a 64-bit architecture, Volatility would tell us the best profile to use is Win7SP1x64. In the below screenshot, we can see that this memory image has been given a suggested profile of WinXPSP2x86 (Windows XP, Service Pack 2, 32-bit architecture). When running any other command on this memory image we need to provide the profile somewhere, in the format --profile=WinXPSP2x86, otherwise, the command will not run.
+
+### Plugins 
+
+Ps List vs PsScan vs Psexscan
+netscan. Timeliner. iehistory. filescan. dumpfiles
+
+### Command List
+volatility -f memdump.mem imageinfo // Take memory image “memdump.mem” and determine the suggested profile for analysis. The profile is the operating system, version, and architecture.
+
+volatility -f memdump.mem --profile=PROFILE pslist // Take memory image, provide the profile, then use the pslist plugin to print a list of processes to the terminal.
+
+volatility -f memdump.mem --profile=PROFILE pstree // Use the pstree plugin to print a process tree to the terminal.
+
+volatility -f memdump.mem --profile=PROFILE psscan // Use the psscan plugin to print all available processes, including hidden ones often used by malware (compare this to pslist to see if there’s any differences!).
+
+volatility -f memdump.mem --profile=PROFILE psxview // Use the plugin psxview plugin to print expected and hidden processes. This is a combination of pslist and psscan plugins.
+
+volatility -f memdump.mem --profile=PROFILE netscan // Use the plugin netscan to identify any active or closed network connections.
+
+volatility -f memdump.mem --profile=PROFILE timeliner // Use the timeliner plugin to create a timeline of events from the memory image.
+
+volatility -f memdump.mem --profile=PROFILE iehistory // Use the iehistory plugin to pull internet browsing history.
+
+volatility -f memdump.mem --profile=PROFILE filescan // Use the filescan plugin to identify any files on the system from the memory image.
+
+volatility -f memdump.mem --profile=PROFILE dumpfiles -n --dump-dir=./ // Use the dumpfiles plugin to retrieve files from the memory image. In this case our terminal is open in the Desktop (root@SBTLab2:~/Desktop) and we are using the output location ./ which tells Volatility to put the files in our current location, the Desktop.
+
+ 
+
+Additional Resources
+If you want to get some practice in before the exercise, or if you’ve finished the exercise and want to play around with Volatility some more, you are able to download open-source memory dumps at Volatility’s own GitHub link, all created for analysis with Volatility. We strongly suggest that students try at least a few of these dumps to see if they can find anything interesting and become more confident using this tool.
+https://github.com/volatilityfoundation/volatility/wiki/Memory-Samples
+
+You can find a great list of useful Volatility commands here:
+https://book.hacktricks.xyz/generic-methodologies-and-resources/basic-forensic-methodology/memory-dump-analysis/volatility-examples
+
+We also recommend you read this article which gives a great insight on how to approach a memory investigation:
+First steps to volatile memory analysis | by P4N4Rd1 | Medium
+
+## Volatility Lab
+
+To identify the profile we'll use the command python vol.py -f /home/ubuntu/Desktop/Volatility\ Exercise/memdump1.mem image info.
+
+### Question 6 - memdump1.mem - Process list 3 - How many processes with the name "svchost.exe" are running in that system?
+
+To achieve this, we'll use the ‘pslist' plugin to list all processes that were running on the system at the time of the memory capture. As we're only interested in svchost.exe processes, we'll pipe our Volatility output into grep and search for lines containing svchost.exe, printing only these to the terminal. This command looks like this: python vol.py -f /home/ubuntu/Desktop/Volatility\ Exercise/memdump1.mem --profile=Win7SP1x64 pslist | grep “svchost.exe”
+
+By counting the number of svchost.exe occurrences, we get the answer. Alternatively, we can pipe the grep output to wordcount using the lines flag (-l) to count the number of occurrences that grep has identified: python vol.py -f /home/ubuntu/Desktop/Volatility\ Exercise/memdump1.mem --profile=Win7SP1x64 pslist | grep “svchost.exe” | wc -l
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/b2f04701-f9b4-45f9-b5ec-347e94838c86)
+
+### Question 8 - memdump1.mem - Process list 5 - What is the command line of the process with PID 2352?
+
+Using the ‘cmdlist' plugin and pointing Volatility at the specific pid using the ‘-p’ flag, we can extract the command-line arguments this process was using. python vol.py -f /home/ubuntu/Desktop/Volatility\ Exercise/memdump1.mem --profile=Win7SP1x64 cmdline -p 2352
+
+
+### Question 9 - memdump2.mem - Network connections - This memory dump correspond to a machine we suspect has been persistently infected by some type of malware. We need to identify the harmful IP related to the malware.
+
+For this question we're going to use the ‘netscan’ plugin and look for the presence of unusual Foreign Addresses (public IPs), especially those that are being connected to from unexpected processes. python vol.py -f 
+/home/ubuntu/Desktop/Volatility\ Exercise/memdump2.mem --profile=Win7SP1x64 netscan
+
+### Question 10 - memdump2.mem - Process dump - Dump the process with PID 2940 and calculate the MD5 hash. Submit the first 5 characters
+
+Using the ‘procdump’ plugin and providing the PID using -p, we can extract the file. We'll then use ‘md5sum’ to get the MD5 hash value. python vol.py -f /home/ubuntu/Desktop/Volatility\ Exercise/memdump2.mem --profile=Win7SP1x64 procdump -p 2940
