@@ -1320,3 +1320,73 @@ pstree > windows.pstree, linux.pstree, mac.pstree
 It will take some time getting used to, as you'll need to remember different plugin names, but here's a great resource that easily allows you to change between Vol 2 and Vol 3 plugin names - [Link.](https://blog.onfvp.com/post/volatility-cheatsheet/)
 
 Thankfully, we'll be covering a graphical user interface tool for Volatility3, so we don't need to remember all of these commands!
+
+
+## Windows Event Logs
+
+Windows Server 2008 to 2019, and Windows Vista to Win10:
+%WinDir%\system32\WinEVT\Logs*.evtx
+ 
+
+These logs keep a detailed record of the vast majority of events that have occurred on the system (hardware events, user logins, program execution and installation, etc.), allowing system administrators to keep track of everything that happens within a system during its execution and being able to diagnose and foresee potential issues. Categories of registered events include:
+
+Application: Events logged by an application (Execution, Deployment error, etc.)
+System: Events logged by the Operating System (Device loading, startup errors, etc.)
+Security: Events that are relevant to the security of the system (Logins and logouts, file deletion, granting of administration permissions, etc.)
+Directory Service: This is a record available only to Domain Controllers, it stores Active Directory (AD) events.
+DNS Server: It is a record available only to DNS servers; logs of DNS service are stored.
+File Replication Service: Is a record available only for Domain Controllers, it stores Domain Controller Replication events.
+
+#### Security Logs
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/caf01ca9-1bba-4317-9cf2-3eb67a6b30e2)
+
+### Siem Rules
+
+SIEM rules typically come in two forms; rules that are provided by the SIEM provider to offer ‘out-the-box’ functionality to detect generic attacks and suspicious patterns, and human-written rules that are developed by the defenders of the organization as they understand what is normal activity, and what isn’t. But what actually are they? They are search queries that are looking for specific activity, looking at any imported or real-time data that is being fed into the SIEM solution. If the rule query matches a piece of data, different actions can be triggered, such as generating an alert, sending an email to a team, or recording the activity to a separate location. These search queries can be running continuously (real-time detection), or set to run at specific scheduled times, such as every day, or every week.
+
+Examples of SIEM Rule Functionality
+We can create rules to detect an endless amount of activity, providing the SIEM is pulling in the required logs. Below are just some of the things we can monitor for:
+
+Authentication/Account Activity:
+
+Failed logon attempts
+Successful (or failed) login attempts to disabled accounts
+Use of specific accounts (local administrator, administrator, domain administrator)
+SID (Security Identifier) changes to an account (a potential indicator of privilege escalation)
+Process Execution:
+
+Execution from unusual locations (such as temporary directories or browser caches – may indicate malware execution or persistence mechanisms)
+Suspicious process relationships (such as Microsoft Word spawning a child process of CMD or PowerShell window (potentially a malicious macro that is executing code))
+Known bad hashes (MD5, SHA1, SHA256 hashes that are generated from confirmed malicious files)
+Network Activity:
+
+Port scans
+Service enumeration
+Host discovery
+
+### Sigma
+
+Rules can be written in the Sigma language and then using a converter (Sigmac) they can be exported as rules in the correct format for a number of different SIEM platforms. This process can also be reversed allowing security professionals to export rules from their vendor format to Sigma format so they can be used by teams with a different SIEM.
+In this example we’re looking at a Sigma rule that can detect when a web server has been compromised and is running a web shell, allowing a malicious actor to visit a specific URL which will provide them with a console, allowing them to execute commands as if they are on the server. We’ll break down the rule below, even though it’s really human-readable!
+
+ ![image](https://github.com/RepTambe/BTL1/assets/56054621/d038f529-603a-4862-830a-fc814c6187f8)
+
+
+ # Splunk
+
+ ## Search Queries
+- index="botsv1" earliest=0 (as this is the only index we have created, we could alternatively use index=*, which is a wildcard search for any index
+- earliest=0 — If we didn’t use this argument, which tells Splunk to start looking at the first event in the dataset, we would need to change the date range (on the far left) to All Time, this way is just easier
+- The simplest search we can conduct is for a field and a value, for example, searching against our data for the source IP field (src) and the IP address value 10.10.10.50.
+
+search src="10.10.10.50"
+ 
+
+With the above query, we’re looking for any logs where the source IP is listed as 10.10.10.50. If we wanted to look for any logs or network traffic associated with this IP, we could also search for logs where the destination IP is stated as 10.10.10.50:
+
+search src="10.10.10.50" OR dst="10.10.10.50"
+
+Let’s go through a simple scenario together. The Customer Support team have received a number of complaints that the company website is extremely slow, and some customers aren’t able to access the site. The security team believes this may be a distributed denial-of-service attack, where multiple remote systems attempt to crash or use up all of the server’s resources so that legitimate clients can’t access it. Using the following simple query we could see what traffic is being directed towards the web server:
+
+search dst="10.10.100.5"
