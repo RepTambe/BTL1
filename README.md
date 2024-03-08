@@ -1390,3 +1390,134 @@ search src="10.10.10.50" OR dst="10.10.10.50"
 Let’s go through a simple scenario together. The Customer Support team have received a number of complaints that the company website is extremely slow, and some customers aren’t able to access the site. The security team believes this may be a distributed denial-of-service attack, where multiple remote systems attempt to crash or use up all of the server’s resources so that legitimate clients can’t access it. Using the following simple query we could see what traffic is being directed towards the web server:
 
 search dst="10.10.100.5"
+
+# Incident Response
+
+Incident response isn’t just about responding to data breaches, it involves responding to the aftermath of an attack such as:
+
+Employee credentials being leaked online
+Database leaks
+Malware infections, such as ransomware
+A stolen employee laptop
+Website defacement
+An employee trying to smuggle sensitive data out of the company
+
+A Security event is anything that could have a security implication, such as causing damage or disruption.
+Security incidents are security events that have resulted in damage to the organization. 
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/22cbeaf8-e775-4269-a6ea-92346c567bd2)
+
+CSIRTs are important because they provide vital functions in our digital world.  For most businesses, this is divided into:
+
+Having a central communication point or command center where all incident information is handled.
+Promotes Security Awareness and Training (Such as Phishing Exercises) for a company.
+Act as the emergency contact group for an organization in all things related to cybersecurity.
+Investigate new security vulnerabilities and threats and develop plans to mitigate and respond to these incidents if exploited at their company.
+Determine the MTTR & MDT for a company’s assets.
+Provide useful information to other CSIRTs and the Cyber Security community.
+
+### Network Intrusion Detection
+ 
+
+Network intrusion detection systems, also known as NIDS, can come in the form of software or physical devices that tap monitor network traffic in order to generate alerts for human analysts to investigate. NIDS can be positioned in the following positions:
+
+Inline – The system running the NIDS software is sitting directly in the path of network traffic, meaning all traffic will pass through the NIDS. In this case, the system becomes a network intrusion prevention system (NIPS). Because the device is inline, it means it can perform reactive measures such as blocking or resetting connections. The risk of using an inline NID/PS is that if the system goes offline, all traffic will be blocked, potentially causing huge issues.
+Network Tap – The NIDS will be connected to the network by tapping into a physical connection, such as a cable.
+Passive – The NIDS is connected to a SPAN port on a network device. This physical port allows all traffic passing through the device to be mirrored to the SPAN port so that the NIDS will get a copy of all network activity.
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/276b4231-fa96-432c-ae77-3bbedcbc5843)
+
+How do web proxies ensure security? They have the ability to reject requests, preventing users from retrieving potentially malicious resources from the internet. This means that requests trying to reach that resource will be denied, and the request will never leave the organization. Preemptive blocks can be conducted based on intelligence to prevent anyone from accessing a known malicious site, however, this is often conducted when phishing attacks are observed against the organization, and any malicious URLs included in the email are blocked on the web proxy so that if any users have received the email and try to click on the link, they’re safe. In the below example, Simon receives a malicious email with a link to a compromised website hosting malware “BensGardeningSupplies.xyz”.
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/8cf53ce8-cdb1-4b61-adcd-1e33641cbdfe)
+
+## Common Events and Incidents
+
+### R2L – Remote to Local
+
+R2L Port Scanning
+ 
+ ![image](https://github.com/RepTambe/BTL1/assets/56054621/b4d2d619-7c9f-46a8-9e37-5c7da6184d8a)
+
+
+With this activity, an external public IP address is scanning the public IP addresses owned by the organization. This is typically conducted to see what IP addresses are used by the organization, which of them are in use, and what ports are open. This type of activity is likely to happen all day, every day, and is arguably the most common alert analysts will see, depending on how the specific organization monitors this activity.
+
+
+
+
+ 
+
+In the simplified diagram above, we have shown how a system present on the internet is able to perform a port scan against systems in the DMZ by going through a list of public IPs that are owned by the organization. The red lines represent the system sending a request to an IP address on a specific port, and the blue lines represent a response from the system (provided there is an active system on that IP).
+
+ 
+
+Detection
+For this, we would want to collect logs from perimeter firewalls and web application firewalls. The rule would look for multiple connections within a small timeframe to a number of different ports on the system. Typically, web servers should only ever be contacted on ports 80 (http) and 443 (https). A remote system that starts connecting on 93, 1195, 1959, and other random non-standard ports is most likely scanning or fingerprinting the system.
+
+ 
+
+Potential Impact
+Scanning happens all the time, and there is rarely an immediate impact. Older systems could be affected by scanning if there is no scalability, and the actor is performing an intense scan. This could potentially use up a lot of bandwidth and lead to other systems not being able to connect to it, causing a denial-of-service (DoS).
+
+### R2L DOS/DDoS
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/271a1bde-a376-4866-a5ff-52fc2c7e602f)
+
+
+## L2L – Local to Local
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/fb95cc0a-0317-4885-97d7-f80c8456958e)
+
+In the simplified diagram above, we have shown how a system within the private network is scanning other systems on the same network, sending out requests and receiving replies, using these to determine what systems are active and perform fingerprinting activities to identify the operating system and any running services on other hosts.
+
+ 
+
+Detection
+SIEM rules can be configured to generate alerts when one private IP is making rapid connections to other internal private IPs. Thresholds or patterns should be used to prevent false positives, as internal systems will make legitimate connections to each other, but it is highly unlikely internal systems should be port scanning or fingerprinting each other! Internal vulnerability scanners should be whitelisted from any L2L scanning rules, as if the security team starts an internal vulnerability scan, the SIEM will generate an alert as the scanner begins scanning other internal systems.
+
+ 
+
+Potential Impact
+If an internal system has been compromised, the likely next step for an attacker once persistence has been achieved would be to identify other systems in the same network so they can perform lateral movement – the process of moving from one system to another. They will identify other systems by conducting scans using ARP, UDP, TCP, or ICMP to see what other IPs are in use, and what ports and services are running on them, looking for a way into the machine.
+
+### Login Failues
+
+![image](https://github.com/RepTambe/BTL1/assets/56054621/1cfeea32-8fd5-43e9-9321-de95a67aadec)
+
+Detection
+In a Windows environment, we can monitor Windows Security Log Event ID 4625, and set thresholds to detect multiple login failures against the domain controller for the same username. Analysts will then be able to investigate by looking at the status code from the security log and take actions based on the alerting activity. Password spraying attacks can also be detected by monitoring for a small number of login failures (2/3) for a large number of users within a short period of time.
+
+ 
+
+Potential Impact
+Users that are locked out can’t work, resulting in a decline in productivity. Typically users will call up or visit their IT service desk to get the account unlocked, so it isn’t a major issue and is typically resolved very quickly. However, login failures where the username is not recognized (0xC0000064) or the account is locked out because of too many failed logins (0xC00000234) could be signs of an attacker that is trying to gain access to internal accounts using a username and password wordlist, employing a dictionary attack, acting as an indicator that an internal system has been compromised.
+
+# Wireshark
+
+#### Find downloads
+Is there a straight forward way I can simply get a list of all the files that were downloaded during a Packet Capture session? e.g. Images, Videos, Files and so on?
+1
+You didn't specify the protocol used to download files.
+I guess you mean HTTP. If this is the case you can find a list of all captured requests in the "Statistics" -> "HTTP" -> "Requests" menu.
+Moving to PCAP 2 we know that a ZIP file was downloaded, and the most likely protocol is going to be HTTPso we'll go to File > Export Objects > HTTP. Looking at the window we can see there is a ZIP file based on the Content Type column showing ‘application/zip’. If the ZIP didn't show up here, we would go to File > Export Objects, and look at the other options such as SMB, SFTP, etc.
+
+Question 15 - PCAP 3 - What credentials allowed the attacker to log into the FTP server?
+
+We can get the USER and PASS by looking at the packets previous to the 230 Login Successful, reading the Info column, or we can right-click the 230 Login Successful response and go to Follow > TCP Stream.
+
+Question 16 - PCAP 3 - What is the name of the file downloaded from the FTP server?
+
+The easiest way to see what actions were taken in an FTP session is to right-click a 230 Login Successful response and follow the TCP stream. Completing the same actions as we did for Q15, when we can see everything in the TCP stream window. In the below screenshot you can see the RETR command, an abbreviation for Retrieve, which tells the server to send the requested file to the client. We can see that the user Chris logged in to the server and downloaded password.backup.
+
+##   CMD For Incident Response
+Below we’re going to cover a number of commands that may be useful for security investigations and incident response. We will also include examples so you can see what the input could look like, and how to interpret the information that is printed to the terminal. These commands should be run as an administrator to function correctly.
+
+ 
+
+
+ipconfig /all
+
+Description: This command will get network configuration information from the local system, including the assigned IP address and the device’s MAC address.
+
+
+Example: In this example we can see that we have the hostname “MSEDGEWIN10“, a MAC address of “00-0C-29-AA-02-FA“, and IPv4 address of “192.168.125.129” . We can also see that the DNS server being used for name resolution is currently “192.168.125.2“.
