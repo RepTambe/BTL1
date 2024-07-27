@@ -130,6 +130,28 @@ Understand what phishing is and the impact it can have on businesses and individ
 
 ![image](https://github.com/RepTambe/BTL1/assets/56054621/d459fa69-1a3b-4761-9ad1-b24a6a610a0a)
 
+## Phishing Checklist
+
+In this task, we will outline the steps performed when analyzing a suspicious or malicious email. 
+
+Below is a checklist of the pertinent information an analyst (you) is to collect from the email header:
+
+    Sender email address
+    Sender IP address
+    Reverse lookup of the sender IP address
+    Email subject line
+    Recipient email address (this information might be in the CC/BCC field)
+    Reply-to email address (if any)
+    Date/time
+
+Afterward, we draw our attention to the email body and attachment(s) (if any).
+
+Below is a checklist of the artifacts an analyst (you) needs to collect from the email body:
+
+    Any URL links (if an URL shortener service was used, then we'll need to obtain the real URL link)
+    The name of the attachment
+    The hash value of the attachment (hash type MD5 or SHA256, preferably the latter)
+
 ### Email Protocol
 
 Simple Mail Transfer Protocol (SMTP)
