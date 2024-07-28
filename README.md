@@ -152,6 +152,9 @@ Below is a checklist of the artifacts an analyst (you) needs to collect from the
     The name of the attachment
     The hash value of the attachment (hash type MD5 or SHA256, preferably the latter)
 
+ https://toolbox.googleapps.com/apps/messageheader/analyzeheader'
+ Message Header Analyzer. - https://mha.azurewebsites.net/   https://mailheader.org/
+
 ### Email Protocol
 
 Simple Mail Transfer Protocol (SMTP)
